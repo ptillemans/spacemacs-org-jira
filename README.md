@@ -7,11 +7,12 @@ This Spacemacs layer allows using Jira from within org-mode.
 * Clone the git repository somewhere and add it as a private layer in spacemacs
 
 ```bash
-git clone git@github.com:jfim/org-jira.git
+git clone git@github.com:nickanderson/spacemacs-org-jira.git org-jira
 ln -s "`pwd`/org-jira" ~/.emacs.d/private/org-jira
 ```
 
-* Add the `org-jira` layer to your .spacemacs file
+* Add the `org-jira` layer to your `.spacemacs` file
+* Add `request` to additional packages in your `.spacemacs` file
 * Add the Jira url to your `.spacemacs` file. For example, if your Jira is installed at https://example:443/secure/Dashboard.jspa
 
 ```lisp
