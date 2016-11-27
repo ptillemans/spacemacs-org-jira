@@ -1,0 +1,122 @@
+# org-jira Spacemacs layer
+
+This Spacemacs layer allows using Jira from within org-mode.
+
+* Installation
+
+- Clone the git repository somewhere and add it as a private layer in spacemacs
+
+  #+BEGIN_SRC sh
+    git clone git@github.com:jfim/org-jira.git
+    ln -s "`pwd`/org-jira" ~/.emacs.d/private/org-jira
+#+END_SRC
+
+- Add the =org-jira= layer to your =.spacemacs= file
+- Add the Jira url to your =.spacemacs= file. For example, if your Jira is
+  installed at https://example:443/secure/Dashboard.jspa
+  
+  #+BEGIN_SRC elisp
+    (setq jiralib-url "https://example:443")
+  #+END_SRC
+
+- Configure the directory in which =org-jira= will create org files. You
+  probably want to add it to your agenda files as well, so that org-agenda can
+  show your jira tickets as part of your todo list. =org-jira= will create one
+  file per Jira project in this directory. For example, if you're assigned
+  projects FOO and BAR, it'll create =FOO.org= and =BAR.org= in this directory,
+  each containing the tickets assigned to you.
+  #+BEGIN_SRC elisp
+    (setq org-jira-working-dir "~/org-jira")
+  #+END_SRC
+
+- Optionally you may want to configure your agenda to include the jira tickets.
+  #+BEGIN_SRC elisp
+    (setq org-agenda-files '("~/org" "~/org-jira"))
+  #+END_SRC
+
+
+- Optionally configure your jira credentials in =~/.authinfo= with machine being
+  the (computed) jiralib-host, and the port being 80 (even if you are using
+  https for Jira):
+
+  #+BEGIN_EXAMPLE
+    machine JIRALIB-HOST login USERNAME password XXXXX port 80
+  #+END_EXAMPLE
+    
+  If you do not set USERNAME here, then it will be prompted using the
+  minibuffer; if you set the wrong username/password, then it won’t work.
+
+This example shows inclusion of the layer and defineing the necessary variables.
+
+#+BEGIN_SRC elisp
+ dotspacemacs-configuration-layers
+ '(
+   ;; ----------------------------------------------------------------
+   ;; Example of useful layers you may want to use right away.
+   ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+   ;; <M-m f e R> (Emacs style) to install them.
+   ;; ----------------------------------------------------------------
+
+   (org-jira :variables
+             jiralib-url "https://jira.example.com:443"
+             ; It is important that this directory exists! An org file for
+             ; each jira project after running org-jira-get-issues
+             org-jira-working-dir "~/.org-jira")
+  )
+#+END_SRC
+
+** Get started
+
+- Open a random org file, it doesn't matter which one.
+
+- Explore the keybindings under =, j=
+
+- Press =, j i g= (='org-jira-get-issues=) to retrieve all Jira tickets assigned
+  to you. It'll ask for a login and password. This will create org files in the
+  =org-jira-working-dir= previously configured.
+
+- Start working on a Jira ticket by opening the relevant org file, moving your
+  cursor onto a Jira ticket and then pressing =, j i w=
+  (='org-jira-progress-issue=)
+
+- Comment on a ticket by adding a =Comment:= subheading :
+  #+BEGIN_EXAMPLE
+    ** Comment:
+    This is a commont on the ticket
+  #+END_EXAMPLE
+
+- You'll then need to synchronize the comment with =, j c u=
+  (='org-jira-update-comment=)
+
+- You can change the ticket priority by editing the =:priority:= value in the
+  =:PROPERTIES:= drawer and syncing it with =, j i u= (='org-jira-update-issue=)
+
+- To get the latest updates on a ticket, you can refresh it by pressing =, j i
+  r= (='org-jira-refresh-issue=)
+
+- You can also view the current ticket in your browser by pressing =, j i b=
+  (='org-jira-browse-issue=)
+
+- Finally, when you're done with the ticket, you can close it by doing =, j i w=
+  (='org-jira-progress-issue=) and selecting =Close issue=. You may need to hit
+  backspace if the autocompletion suggestion is hiding the close option.
+
+** Usage
+
+When in org-mode:
+
+- =, j p g= ='org-jira-get-projects=
+- =, j i b= ='org-jira-browse-issue=
+- =, j i g= ='org-jira-get-issues=
+- =, j i h= ='org-jira-get-issues-headonly=
+- =, j i f= ='org-jira-get-issues-from-filter-headonly=
+- =, j i F= ='org-jira-get-issues-from-filter=
+- =, j i u= ='org-jira-update-issue=
+- =, j i w= ='org-jira-progress-issue=
+- =, j i r= ='org-jira-refresh-issue=
+- =, j i c= ='org-jira-create-issue=
+- =, j i k= ='org-jira-copy-current-issue-key=
+- =, j s c= ='org-jira-create-subtask=
+- =, j s g= ='org-jira-get-subtasks=
+- =, j c u= ='org-jira-update-comment=
+- =, j t j= ='org-jira-todo-to-jira=
