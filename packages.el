@@ -15,9 +15,10 @@
 (defvar org-jira-excluded-packages '() "List of packages to exclude.")
 
 (defun org-jira/init-org-jira ()
-  (use-package org-jira
-    :config
-    (progn
+  (with-eval-after-load 'org
+    (use-package org-jira
+      :config
+      (progn
       (spacemacs/declare-prefix-for-mode 'org-mode "mj" "jira")
       (spacemacs/declare-prefix-for-mode 'org-mode "mjp" "projects")
       (spacemacs/declare-prefix-for-mode 'org-mode "mji" "issues")
@@ -41,4 +42,4 @@
         "jcu" 'org-jira-update-comment
         "jtj" 'org-jira-todo-to-jira)
       )
-    ))
+    )))
